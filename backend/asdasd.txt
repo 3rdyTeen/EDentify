@@ -1,0 +1,8 @@
+APP_PORT=8080
+
+NODE_ENV="development"
+
+DATABASE_URL="mysql://root:@localhost:3306/auth_epz"
+
+JWT_SECRET="aaaaa"
+
