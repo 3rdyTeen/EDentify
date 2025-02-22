@@ -20,7 +20,7 @@ const AuthLayout = ({children}: AuthLayoutProps) => {
   }
 
   return (
-    <div className="h-screen flex flex-col max-w-[1400px] mx-auto">
+    <div className="h-screen flex flex-col max-w-[1400px] mx-auto px-4">
         <AuthHeader />
         <div className="flex mt-7 items-center justify-center bg-background p-4 w-2/5 mx-auto">
             {children}

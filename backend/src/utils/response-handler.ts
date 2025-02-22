@@ -38,7 +38,7 @@ export const sendSuccessResponseWithCookie = <T>(
     sameSite: 'strict',
     httpOnly: true,
   });
-  return res.status(status).json({ success: true, token, data });
+  return res.status(status).json({ success: true, data });
 };
 
 // Success response without data (e.g., for delete operations)

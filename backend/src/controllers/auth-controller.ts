@@ -49,6 +49,7 @@ export const login = async (req: Request, res: Response) => {
       email: user.email,
       name: user.name,
       status: user.status,
+      token: token,
     };
 
     return sendSuccessResponseWithCookie(res, token, responseData);

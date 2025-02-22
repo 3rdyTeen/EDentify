@@ -27,7 +27,6 @@ export const singup_confirmation = async (credentials: {code: string}) => {
 
 export const profile = async () => {
   const response = await apiClient.get('auth/profile');
-  response.data.token = response.token;
   return response.data;
 }
 
