@@ -13,6 +13,9 @@ type OverrideUsers = Omit<OverrideIdAndDates<Users>, 'status'> & {
 };
 
 export type TUserID = OverrideUsers['id'];
-export type TUserRead = Omit<OverrideUsers, 'password' | 'created_at' | 'updated_at'> | null;
+export type TUserRead = Omit<
+  OverrideUsers,
+  'confirmation_code' | 'password' | 'created_at' | 'updated_at'
+> | null;
 export type TUserReadComplete = OverrideUsers | null;
 export type TUserWrite = Omit<OverrideUsers, 'id' | 'created_at' | 'updated_at'>;

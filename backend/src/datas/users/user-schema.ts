@@ -10,9 +10,9 @@ const UserStatusType = {
 export const userSchema = z.object({
   email: z.string().email(),
   password: z.string(),
-  firstname: z.string(),
-  lastname: z.string(),
-  status: z.nativeEnum(UserStatusType),
+  name: z.string(),
+  status: z.nativeEnum(UserStatusType).optional().default(UserStatusType.Active),
+  confirmation_code: z.string().optional(),
 });
 
 export const userLoginSchema = z.object({

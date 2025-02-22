@@ -16,9 +16,9 @@ model Users {
   id    String     @id @default(uuid())
   email String  @unique(map: "User_email_key")
   password String @db.Text
-  firstname  String
-  lastname  String
+  name  String
   status UserStatus @default(Active)
+  confirmation_code String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

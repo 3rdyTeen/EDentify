@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { getCookie } from 'cookies-next';
 
 // Create an Axios instance with default configuration
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api', // Base URL for API requests
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api', // Base URL for API requests
   headers: {
     'Content-Type': 'application/json', // Default content type
   },
@@ -12,7 +13,7 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Modify the request config before sending (e.g., add auth token)
-    const token = localStorage.getItem('authToken'); // Example: Get token from localStorage
+    const token = getCookie('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

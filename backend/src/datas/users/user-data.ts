@@ -14,8 +14,7 @@ export const getUserData = async (id: TUserID): Promise<TUserRead> => {
     select: {
       id: true,
       email: true,
-      firstname: true,
-      lastname: true,
+      name: true,
       status: true,
     },
   });
@@ -26,8 +25,7 @@ export const getAllUsersData = async (): Promise<TUserRead[]> => {
     select: {
       id: true,
       email: true,
-      firstname: true,
-      lastname: true,
+      name: true,
       status: true,
     },
   });
@@ -39,8 +37,7 @@ export const saveUserData = async (data: TUserWrite): Promise<TUserRead> => {
     select: {
       id: true,
       email: true,
-      firstname: true,
-      lastname: true,
+      name: true,
       status: true,
     },
   });
@@ -55,8 +52,7 @@ export const updateUserData = async (data: TUserWrite, id: TUserID): Promise<TUs
     select: {
       id: true,
       email: true,
-      firstname: true,
-      lastname: true,
+      name: true,
       status: true,
     },
   });

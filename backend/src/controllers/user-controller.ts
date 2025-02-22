@@ -18,7 +18,7 @@ import { type Request, type Response } from 'express';
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users: TUserRead[] | null = await getAllUsersData();
-    return sendSuccessResponse(res, users);
+    return sendSuccessResponse(res, '', users);
   } catch (error) {
     return sendErrorResponse(res, error);
   }
@@ -30,7 +30,7 @@ export const getUser = async (req: Request, res: Response) => {
     const userID = req.params.id as TUserID;
     const user: TUserRead | null = await getUserData(userID);
 
-    return sendSuccessResponse(res, user);
+    return sendSuccessResponse(res, '', user);
   } catch (error) {
     return sendErrorResponse(res, error);
   }

@@ -1,11 +1,13 @@
-import { getUserByEmail, saveUserData } from '@/datas/users/user-data';
+import { getUserByEmail, getUserData, saveUserData } from '@/datas/users/user-data';
 import { type TUserLoginSchema, userLoginSchema, userSchema } from '@/datas/users/user-schema';
-import { type TUserReadComplete, type TUserWrite } from '@/types/general';
+import { TUserID, TUserRead, type TUserReadComplete, type TUserWrite } from '@/types/general';
+import { GenerateNumberCode } from '@/utils/generate-number-code';
 import { generateJWT } from '@/utils/jwt-handler';
 import {
   sendBadRequestResponse,
   sendErrorResponse,
   sendSuccessNoDataResponse,
+  sendSuccessResponse,
   sendSuccessResponseWithCookie,
   sendUnauthorizedResponse,
 } from '@/utils/response-handler';
@@ -14,17 +16,17 @@ import { type Request, type Response } from 'express';
 
 export const register = async (req: Request, res: Response) => {
   try {
-    // eslint-disable-next-line prefer-const
-    let data: TUserWrite = userSchema.parse(req.body);
+    const data: TUserWrite = userSchema.parse(req.body);
     data.password = await bcrypt.hashSync(data.password, 10);
+    data.confirmation_code = GenerateNumberCode();
 
     const emailExist: TUserReadComplete = await getUserByEmail(data.email);
 
     if (emailExist) return sendBadRequestResponse(res, 'Email already exists.');
 
-    await saveUserData(data);
+    const user = await saveUserData(data);
 
-    return sendSuccessNoDataResponse(res, 'Successfully created user.');
+    return sendSuccessResponse(res, 'Successfully created user.', user);
   } catch (error) {
     return sendErrorResponse(res, error);
   }
@@ -35,7 +37,6 @@ export const login = async (req: Request, res: Response) => {
     const { email, password }: TUserLoginSchema = userLoginSchema.parse(req.body);
 
     const user: TUserReadComplete = await getUserByEmail(email);
-
     if (!user) return sendUnauthorizedResponse(res, 'Invalid Credentials.');
 
     if (!bcrypt.compareSync(password, user.password))
@@ -46,12 +47,26 @@ export const login = async (req: Request, res: Response) => {
     const responseData = {
       id: user.id,
       email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      name: user.name,
       status: user.status,
     };
 
     return sendSuccessResponseWithCookie(res, token, responseData);
+  } catch (error) {
+    return sendErrorResponse(res, error);
+  }
+};
+
+export const profile = async (req: Request, res: Response) => {
+  try {
+    const userID = req.user?.id as TUserID;
+
+    let user: TUserRead | null = null;
+    if (userID) {
+      user = await getUserData(userID);
+    }
+
+    return sendSuccessResponse(res, '', user);
   } catch (error) {
     return sendErrorResponse(res, error);
   }

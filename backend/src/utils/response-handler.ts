@@ -15,10 +15,11 @@ interface ErrorResponse<T> {
 // Success response with data
 export const sendSuccessResponse = <T>(
   res: Response,
+  message = 'Operation successful',
   data: T,
   status = 200
 ): Response<SuccessResponse<T>> => {
-  return res.status(status).json({ success: true, data });
+  return res.status(status).json({ success: true, message, data });
 };
 
 // Success response with data and cookie (e.g., for login/ signup)
@@ -32,12 +33,12 @@ export const sendSuccessResponseWithCookie = <T>(
 
   res.cookie('token', token, {
     expires: new Date(Date.now() + oneDay),
-    secure: process.env.APP_PORT === 'production',
+    secure: process.env.NODE_ENV === 'production',
     signed: true,
     sameSite: 'strict',
     httpOnly: true,
   });
-  return res.status(status).json({ success: true, data });
+  return res.status(status).json({ success: true, token, data });
 };
 
 // Success response without data (e.g., for delete operations)
